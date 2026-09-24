@@ -1,0 +1,171 @@
+HoneyDo — prompts from the build session (2026-09-23)
+Reconstructed verbatim, in order. Notes in [brackets] are context, not part of the prompt.
+
+------------------------------------------------------------
+1.
+git remote add origin https://github.com/leejandersen-debug/WK5D3-HoneyDo.git
+
+------------------------------------------------------------
+2.
+“Scaffold a new Next.js project in this folder using npx create-next-app@latest. Pick the current stable Next.js version. Use these answers to the scaffolder’s prompts:
+•    TypeScript: yes
+•    App Router: yes (not the Pages Router)
+•    Tailwind: no — we’ll write plain CSS
+•    src/ directory: no — keep app/ at the root
+•    Import alias customization: no
+•    Linter: ESLint (it offers Biome too — ESLint is the safe pick)
+The scaffolder will also ask about React Compiler and an AGENTS.md file — no compiler for now, yes to AGENTS.md, and accept the defaults on anything else it asks.
+Project name: honeydo. Install dependencies, but do not initialize git — this folder is already inside my course repo’s working area.
+After scaffolding, before changing any code, walk me through what each top-level file does:
+•    app/page.tsx
+•    app/layout.tsx
+•    app/globals.css
+•    next.config.js
+•    tsconfig.json
+•    package.json
+Tell me which files are framework plumbing and which I’ll actually edit this week.”
+
+------------------------------------------------------------
+3.
+npm run dev
+
+------------------------------------------------------------
+4.
+“Replace app/page.tsx with a homepage for a task board called HoneyDo. The page should have:
+•    A header with the product name “HoneyDo” and a small tagline like “HoneyDo List for what HoneyDoes.”
+•    A hero section with an <h1>, a one-sentence subhead, and a single primary call-to-action button (no link target yet — just the button).
+•    A “this week’s tasks” section with six hard-coded tasks, each rendered as a card. Each task has an ID, TaskTitle (30 character limit text), AssignedTo (drop down menu list of “Lee”, “Tara” “Eric”, “Jake”), DateDue (mm/dd/yyyy format), Description (free form text not to exceed 150 characters. Fill with these first 6 entries:
+•    ENTRY 1 ID:TASK0001, TaskTitle: Call Breaux Dental for Appt, AssignedTo: Tara, DateDue: 10/02/2026, Description: Call for appointment to get filling taken care of.
+•    ENTRY 2 ID:TASK0002, TaskTitle: List Boat for sale, AssignedTo: Lee, DateDue: 09/28/2026, Description: Prep boat for listing, then list on Marketplace
+•    ENTRY 3 ID:TASK0003, TaskTitle: Complete Week 5 Coursework, AssignedTo: Lee, DateDue: 09/28/2026, Description: Finish AI Week 5 coursework and start Week 6.
+•    ENTRY 4 ID:TASK0004, TaskTitle: Call Breaux Dental for Appt, AssignedTo: Tara, DateDue: 10/02/2026, Description: Call for appointment to get filling taken care of.
+•    ENTRY 5 ID:TASK0005, TaskTitle: Fair with Kids, AssignedTo: Tara, DateDue: 09/27/2026, Description: Go to the Fair with the Barker kids. Bring Eric and Jake.
+•    ENTRY 6 ID:TASK0006, TaskTitle: Schedule Travel, AssignedTo: Lee, DateDue: 09/27/2026, Description: Complete travel arrangements to Portland and Bangor, ME for work.
+•    A footer with a copyright line.
+Define a TypeScript Task interface at the top of the file with the fields above. Hard-code the six tasks as a typed const. Put all styling in app/globals.css using plain CSS (no Tailwind, no CSS modules yet). Show me the diff before you save anything.”
+
+------------------------------------------------------------
+5.
+yes, save them
+
+------------------------------------------------------------
+6.
+git commt -m "First pass creation of HoneyDo Web app"
+
+------------------------------------------------------------
+7.
+git push -u origin main
+
+------------------------------------------------------------
+8.
+“Create an API route at app/api/tasks/route.ts using the Next.js App Router pattern. Specifics:
+•    Export a single async GET function.
+•    Return the four tasks I’ve currently hard-coded in app/page.tsx as JSON, using Response.json(tasks).
+•    Import the Task interface from app/page.tsx — or, if you prefer, move the interface to lib/types.ts first and import it from both files.
+•    Don’t change app/page.tsx in this step. Only create the new route file.
+Show me the diff before you save.”
+
+[Answers to Claude's follow-up questions:
+ - How to share Task/tasks: "Move to lib/ (Recommended)"
+ - What the API should return: "All six"]
+
+------------------------------------------------------------
+9.
+[Request interrupted by user for tool use]
+I accidentally stopped the last prompt.  Proceed from where you were
+
+------------------------------------------------------------
+10.
+yes, save them
+
+------------------------------------------------------------
+11.
+git commit -m "Add /api/tasks route and move tasks to lib"
+
+------------------------------------------------------------
+12.
+git push
+
+------------------------------------------------------------
+13.
+what does the GET handler return?
+
+------------------------------------------------------------
+14.
+“Update app/page.tsx to fetch tasks from /api/tasks instead of using the hard-coded array. Specifics:
+•    Make the page a client component — add 'use client' at the top.
+•    Use useState<Task[]>([]) for the tasks.
+•    Use useEffect to fetch on mount.
+•    While the fetch is in flight, render a simple “Loading tasks…” message.
+•    If the fetch fails, render a small error message with the error text.
+•    The rendering of the task list stays exactly the same.
+Show me the diff.”
+
+------------------------------------------------------------
+15.
+yes, save them
+
+------------------------------------------------------------
+16.
+git commit -m "Fetch tasks from /api/tasks on the client"
+
+------------------------------------------------------------
+17.
+git push
+
+------------------------------------------------------------
+18.
+“Before you write this, confirm:
+
+We are using the Next.js App Router (the app/ directory pattern), not the Pages Router.
+Use server components by default. Mark a file as a client component with 'use client' only when it needs interactivity, hooks, or browser APIs.
+Do not use getServerSideProps, getStaticProps, _app.js, or _document.js.
+Do not create a pages/ folder.
+If your training data is biased toward the Pages Router, please use the current App Router patterns instead.
+Show me the file paths and any new files you’d create before writing the code.”
+
+------------------------------------------------------------
+19.
+yes, do the TaskList refactor and show me the diff
+
+------------------------------------------------------------
+20.
+yes, save them
+
+------------------------------------------------------------
+21.
+[Request interrupted by user for tool use]
+yes save them
+
+------------------------------------------------------------
+22.
+git commit -m "Move task list into TaskList client component"
+
+------------------------------------------------------------
+23.
+git push
+
+------------------------------------------------------------
+24.
+“You created pages/tasks/[id].js. We’re on the App Router, not the Pages Router.
+
+Move this to app/tasks/[id]/page.tsx instead.
+Delete pages/ if it’s empty after the move.
+Convert getServerSideProps to an async server component — the page itself becomes async, fetch directly in the function body.
+Show me the diff for both files.”
+
+------------------------------------------------------------
+25.
+yes, save them
+
+------------------------------------------------------------
+26.
+git commit -m "Add task detail page at /tasks/[id]"
+
+------------------------------------------------------------
+27.
+git push
+
+------------------------------------------------------------
+28.
+Reconstruct prompts and write to a prompts.txt file
