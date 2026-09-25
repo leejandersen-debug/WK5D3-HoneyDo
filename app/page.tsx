@@ -1,4 +1,4 @@
-import TaskList from "@/app/components/TaskList";
+import TaskBoard from "@/app/components/TaskBoard";
 
 export default function Home() {
   return (
@@ -9,21 +9,17 @@ export default function Home() {
       </header>
 
       <main>
-        <section className="hero">
-          <h1>Get the household to-do list done.</h1>
-          <p className="subhead">
-            Track every chore, errand, and appointment in one place and see
-            who&apos;s on it at a glance.
-          </p>
-          <button type="button" className="button-primary">
-            Add a task
-          </button>
-        </section>
-
-        <section className="tasks" aria-labelledby="tasks-heading">
-          <h2 id="tasks-heading">This week&apos;s tasks</h2>
-          <TaskList />
-        </section>
+        <TaskBoard
+          intro={
+            <>
+              <h1>Get the household to-do list done.</h1>
+              <p className="subhead">
+                Track every chore, errand, and appointment in one place and see
+                who&apos;s on it at a glance.
+              </p>
+            </>
+          }
+        />
       </main>
 
       <footer className="site-footer">
