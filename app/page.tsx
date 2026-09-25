@@ -3,11 +3,6 @@ import TaskBoard from "@/app/components/TaskBoard";
 export default function Home() {
   return (
     <>
-      <header className="site-header">
-        <span className="brand">HoneyDo</span>
-        <span className="tagline">HoneyDo List for what HoneyDoes.</span>
-      </header>
-
       <main>
         <TaskBoard
           intro={

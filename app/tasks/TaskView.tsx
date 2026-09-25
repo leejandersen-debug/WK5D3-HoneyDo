@@ -153,9 +153,6 @@ export default function TaskView({ tasks }: { tasks: Task[] }) {
     <main
       className={`${styles.page} ${view === "board" ? styles.pageWide : ""}`}
     >
-      <Link href="/" className="back-link">
-        &larr; Home
-      </Link>
       <h1 className={styles.heading}>All tasks</h1>
 
       <div className={styles.controls}>

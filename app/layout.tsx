@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import Link from "next/link";
+import SiteNav from "@/app/components/SiteNav";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -20,7 +22,16 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="en" className={`${geistSans.variable} ${geistMono.variable}`}>
-      <body>{children}</body>
+      <body>
+        <header className="site-header">
+          <Link href="/" className="brand">
+            HoneyDo
+          </Link>
+          <span className="tagline">HoneyDo List for what HoneyDoes.</span>
+          <SiteNav />
+        </header>
+        {children}
+      </body>
     </html>
   );
 }

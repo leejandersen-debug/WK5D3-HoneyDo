@@ -14,7 +14,7 @@ export default async function TaskPage(props: PageProps<"/tasks/[id]">) {
 
   return (
     <main className="task-detail">
-      <Link href="/" className="back-link">
+      <Link href="/tasks" className="back-link">
         &larr; All tasks
       </Link>
       <p className="task-id">{task.ID}</p>
