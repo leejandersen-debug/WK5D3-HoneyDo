@@ -33,15 +33,6 @@ const seedTasks: Task[] = [
     Priority: "High",
   },
   {
-    ID: "TASK0004",
-    TaskTitle: "Call Breaux Dental for Appt",
-    AssignedTo: "Tara",
-    DateDue: "10/02/2026",
-    Description: "Call for appointment to get filling taken care of.",
-    Status: "To do",
-    Priority: "Medium",
-  },
-  {
     ID: "TASK0005",
     TaskTitle: "Fair with Kids",
     AssignedTo: "Tara",
