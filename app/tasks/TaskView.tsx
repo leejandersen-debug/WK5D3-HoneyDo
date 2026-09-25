@@ -1,8 +1,9 @@
 "use client";
 
-import Link from "next/link";
 import { useState } from "react";
 import type { Task, TaskPriority, TaskStatus } from "@/lib/types";
+import TaskBoard from "./TaskBoard";
+import TaskList from "./TaskList";
 import styles from "./page.module.css";
 
 type Filter = "all" | "todo" | "doing" | "done";
@@ -33,19 +34,10 @@ const FILTER_STATUS: Record<Exclude<Filter, "all">, TaskStatus> = {
   done: "Done",
 };
 
-// Board columns, left to right.
-const STATUS_ORDER: TaskStatus[] = ["To do", "In progress", "Done"];
-
 const PRIORITY_RANK: Record<TaskPriority, number> = {
   High: 0,
   Medium: 1,
   Low: 2,
-};
-
-const statusClass: Record<TaskStatus, string> = {
-  "To do": styles.statusTodo,
-  "In progress": styles.statusInProgress,
-  Done: styles.statusDone,
 };
 
 /** Converts mm/dd/yyyy to a sortable yyyymmdd number. */
@@ -59,11 +51,7 @@ function idNumber(id: string): number {
   return Number(id.replace("TASK", "")) || 0;
 }
 
-function applyFilterAndSort(
-  tasks: Task[],
-  filter: Filter,
-  sort: Sort,
-): Task[] {
+function applyFilterAndSort(tasks: Task[], filter: Filter, sort: Sort): Task[] {
   const filtered =
     filter === "all"
       ? tasks
@@ -120,34 +108,12 @@ function ButtonGroup<T extends string>({
   );
 }
 
-function TaskCard({ task }: { task: Task }) {
-  return (
-    <article className={styles.card}>
-      <header className={styles.cardHeader}>
-        <h2 className={styles.title}>
-          <Link href={`/tasks/${task.ID}`}>{task.TaskTitle}</Link>
-        </h2>
-        <span className={`${styles.badge} ${statusClass[task.Status]}`}>
-          {task.Status}
-        </span>
-      </header>
-      <dl className={styles.details}>
-        <dt>Priority</dt>
-        <dd>{task.Priority}</dd>
-        <dt>Assigned to</dt>
-        <dd>{task.AssignedTo}</dd>
-      </dl>
-    </article>
-  );
-}
-
 export default function TaskView({ tasks }: { tasks: Task[] }) {
   const [filter, setFilter] = useState<Filter>("all");
   const [sort, setSort] = useState<Sort>("priority");
   const [view, setView] = useState<View>("list");
 
   const visible = applyFilterAndSort(tasks, filter, sort);
-  const columns = filter === "all" ? STATUS_ORDER : [FILTER_STATUS[filter]];
 
   return (
     <main
@@ -178,38 +144,12 @@ export default function TaskView({ tasks }: { tasks: Task[] }) {
 
       {tasks.length === 0 ? (
         <p className={styles.empty}>No tasks yet.</p>
-      ) : view === "list" ? (
-        visible.length === 0 ? (
-          <p className={styles.empty}>No tasks match this filter.</p>
-        ) : (
-          <div className={styles.list}>
-            {visible.map((task) => (
-              <TaskCard key={task.ID} task={task} />
-            ))}
-          </div>
-        )
+      ) : view === "board" ? (
+        <TaskBoard tasks={visible} />
+      ) : visible.length === 0 ? (
+        <p className={styles.empty}>No tasks match this filter.</p>
       ) : (
-        <div className={styles.board}>
-          {columns.map((status) => {
-            const columnTasks = visible.filter((t) => t.Status === status);
-            return (
-              <section key={status} className={styles.column}>
-                <h2 className={styles.columnHeading}>
-                  {status} <span>{columnTasks.length}</span>
-                </h2>
-                {columnTasks.length === 0 ? (
-                  <p className={styles.empty}>Nothing here.</p>
-                ) : (
-                  <div className={styles.list}>
-                    {columnTasks.map((task) => (
-                      <TaskCard key={task.ID} task={task} />
-                    ))}
-                  </div>
-                )}
-              </section>
-            );
-          })}
-        </div>
+        <TaskList tasks={visible} />
       )}
     </main>
   );

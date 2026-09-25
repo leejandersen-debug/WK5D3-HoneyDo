@@ -1,0 +1,61 @@
+.list {
+  list-style: none;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.25rem 1rem;
+  padding: 0.75rem 1rem;
+}
+
+.row + .row {
+  border-top: 1px solid var(--border);
+}
+
+.dot {
+  flex-shrink: 0;
+  width: 0.625rem;
+  height: 0.625rem;
+  border-radius: 50%;
+}
+
+.dotTodo {
+  border: 2px solid var(--muted);
+}
+
+.dotInProgress {
+  background: var(--accent);
+}
+
+.dotDone {
+  background: var(--foreground);
+}
+
+.title {
+  flex: 1;
+  min-width: 10rem;
+  font-weight: 600;
+}
+
+.title:hover {
+  text-decoration: underline;
+}
+
+.priority,
+.due {
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.priority {
+  min-width: 4rem;
+}
+
+.due {
+  font-variant-numeric: tabular-nums;
+}
