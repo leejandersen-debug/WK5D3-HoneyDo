@@ -169,3 +169,188 @@ git push
 ------------------------------------------------------------
 28.
 Reconstruct prompts and write to a prompts.txt file
+
+
+============================================================
+HoneyDo — prompts from the build session (2026-09-24)
+============================================================
+
+------------------------------------------------------------
+29.
+npm run dev
+
+------------------------------------------------------------
+30.
+The "add a task" button does not work.  Why?
+
+------------------------------------------------------------
+31.
+yes, build it
+
+------------------------------------------------------------
+32.
+git commit -m "Add task creation form and POST /api/tasks"
+
+------------------------------------------------------------
+33.
+git push
+
+------------------------------------------------------------
+34.
+“Before you write anything, check the current Next.js App Router server component syntax against the docs at nextjs.org/docs/app. Do not use cached knowledge — the API has changed.
+Then create app/tasks/page.tsx as an async server component:
+•    Fetch from /api/tasks (relative URL works because it’s same-origin).
+•    Map the response into a typed Task array.
+•    Render each task as an <article> with title, status badge, priority, and assignee.
+•    Use plain CSS in a scoped style block, no Tailwind.
+•    Do not add 'use client' — this is a server component.
+Show me the diff before saving.”
+[Answered follow-up questions: data source → "Import from lib/tasks"; missing status/priority → "Add both fields"]
+
+------------------------------------------------------------
+35.
+I don't see the diff.  display the whole diff.
+
+------------------------------------------------------------
+36.
+yes, save them
+
+------------------------------------------------------------
+37.
+git commit -m "Add /tasks page with status and priority"
+
+------------------------------------------------------------
+38.
+git push
+
+------------------------------------------------------------
+39.
+Before you write anything, confirm the current App Router pattern for splitting a server-fetching page into a server-parent + client-leaf at nextjs.org/docs/app/building-your-application/rendering/composition-patterns.
+Then make these changes:
+•    Create app/tasks/TaskView.tsx as a client component — use clientdirective at the top.
+•    Type the prop: it accepts a tasks prop typed as a Task array.
+•    Move the rendering logic from app/tasks/page.tsx into TaskView.
+•    Update page.tsx to fetch the tasks (as before) and render <TaskView tasks={tasks} />.
+Show me both files in the diff.”
+
+------------------------------------------------------------
+40.
+yes, save them
+
+------------------------------------------------------------
+41.
+one of the cards were duplicated.  Go back and fix this one
+
+------------------------------------------------------------
+42.
+git commit -m "Split /tasks into TaskView client component"
+
+------------------------------------------------------------
+43.
+git push
+
+------------------------------------------------------------
+44.
+“In TaskView, add three useState hooks:
+•    filter — initial 'all', type 'all' | 'todo' | 'doing' | 'done'
+•    sort — initial 'priority', type 'priority' | 'due' | 'recent'
+•    view — initial 'list', type 'list' | 'board'
+Then add the behavior:
+•    Add a helper applyFilterAndSort(tasks, filter, sort) that returns the filtered + sorted array.
+•    Render three groups of buttons (filter / sort / view) above the task list.
+•    Each button toggles its respective state when clicked.
+•    The active button gets a distinct visual style.
+Show me the diff.”
+
+------------------------------------------------------------
+45.
+yes, save them
+
+------------------------------------------------------------
+46.
+git commit -m "Add filter, sort, and view controls to TaskView"
+
+------------------------------------------------------------
+47.
+git push
+
+------------------------------------------------------------
+48.
+“Create TaskList.tsx and TaskBoard.tsx as client components — use client at the top of each (they’re children of TaskView, which is client, so they’d inherit it anyway, but mark them explicitly for clarity).
+•    TaskList — renders each task as a horizontal row with status dot, title, priority, due date.
+•    TaskBoard — renders three columns (To do, In progress, Done) with task cards grouped by status.
+•    Both accept a tasks: Task[] prop.
+Plain CSS in scoped style blocks.”
+[Answered follow-up question: styling → "CSS Modules"]
+
+------------------------------------------------------------
+49.
+I don't see the changes on the page
+
+------------------------------------------------------------
+50.
+Add 3 menu items on the home page:  Home, Tasks, About.  Make those 3 items persistent on every page.  Link them to the proper page.
+
+------------------------------------------------------------
+51.
+git commit -m "Add site nav menu and About page"
+
+------------------------------------------------------------
+52.
+git push
+
+------------------------------------------------------------
+53.
+“Before you write anything, confirm the current App Router dynamic route syntax against the docs at nextjs.org/docs/app/building-your-application/routing/dynamic-routes.
+Then create two files.
+First: app/api/tasks/[id]/route.ts — a GET handler that:
+•    Awaits the params Promise and reads the id from it.
+•    Looks up the matching task in the same data source the existing /api/tasks route uses.
+•    Returns it as JSON, or returns a 404 if no match.
+Second: app/tasks/[id]/page.tsx — an async server component that:
+•    Awaits params, then fetches from the absolute URL http://localhost:3000/api/tasks/{id} — Node’s fetch needs the full URL, not a relative path.
+•    Types the response as Task.
+•    Renders title, status, priority, assignee, due date in semantic HTML.
+•    If the fetch fails, return a 404 page.
+Show me both files in the diff.”
+[Answered follow-up question: page data source → "Keep direct read"]
+
+------------------------------------------------------------
+54.
+yes, save them
+
+------------------------------------------------------------
+55.
+git commit -m "Add GET /api/tasks/[id] and task detail fields"
+
+------------------------------------------------------------
+56.
+git push
+
+------------------------------------------------------------
+57.
+“In TaskList.tsx (and TaskBoard.tsx if applicable), wrap each task title in a Link component imported from next/link. The href should be /tasks/{task.id}. Use prefetch={false} to hold off the background prefetch requests for now.”
+
+------------------------------------------------------------
+58.
+git commit -m "Add TaskList and TaskBoard components to /tasks"
+
+------------------------------------------------------------
+59.
+git push
+
+------------------------------------------------------------
+60.
+git commit -m "Remove duplicate TASK0004 from seed data"
+
+------------------------------------------------------------
+61.
+git push
+
+------------------------------------------------------------
+62.
+create hover on cardsd
+
+------------------------------------------------------------
+63.
+update prompt.txt with latest added prompts

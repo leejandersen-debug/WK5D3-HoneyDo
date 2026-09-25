@@ -8,6 +8,7 @@
   --accent-hover: #c48c00;
   --accent-contrast: #1f1a12;
   --error: #b42318;
+  --card-shadow: 0 6px 16px rgb(31 26 18 / 0.1);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -21,6 +22,7 @@
     --accent-hover: #f7c948;
     --accent-contrast: #1f1a12;
     --error: #f97066;
+    --card-shadow: 0 6px 16px rgb(0 0 0 / 0.45);
   }
 }
 
@@ -270,6 +272,26 @@ main {
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: 12px;
+  transition:
+    transform 150ms ease,
+    box-shadow 150ms ease,
+    border-color 150ms ease;
+}
+
+.task-card:hover {
+  transform: translateY(-2px);
+  border-color: var(--accent);
+  box-shadow: var(--card-shadow);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .task-card {
+    transition: none;
+  }
+
+  .task-card:hover {
+    transform: none;
+  }
 }
 
 .task-meta {
