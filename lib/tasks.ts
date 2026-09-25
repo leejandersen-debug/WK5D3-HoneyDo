@@ -1,6 +1,8 @@
-import type { Assignee, Task } from "@/lib/types";
+import type { Assignee, Task, TaskPriority, TaskStatus } from "@/lib/types";
 
 export const ASSIGNEES: Assignee[] = ["Lee", "Tara", "Eric", "Jake"];
+export const STATUSES: TaskStatus[] = ["To do", "In progress", "Done"];
+export const PRIORITIES: TaskPriority[] = ["Low", "Medium", "High"];
 
 const seedTasks: Task[] = [
   {
@@ -9,6 +11,8 @@ const seedTasks: Task[] = [
     AssignedTo: "Tara",
     DateDue: "10/02/2026",
     Description: "Call for appointment to get filling taken care of.",
+    Status: "To do",
+    Priority: "Medium",
   },
   {
     ID: "TASK0002",
@@ -16,6 +20,8 @@ const seedTasks: Task[] = [
     AssignedTo: "Lee",
     DateDue: "09/28/2026",
     Description: "Prep boat for listing, then list on Marketplace",
+    Status: "In progress",
+    Priority: "Low",
   },
   {
     ID: "TASK0003",
@@ -23,6 +29,8 @@ const seedTasks: Task[] = [
     AssignedTo: "Lee",
     DateDue: "09/28/2026",
     Description: "Finish AI Week 5 coursework and start Week 6.",
+    Status: "In progress",
+    Priority: "High",
   },
   {
     ID: "TASK0004",
@@ -30,6 +38,8 @@ const seedTasks: Task[] = [
     AssignedTo: "Tara",
     DateDue: "10/02/2026",
     Description: "Call for appointment to get filling taken care of.",
+    Status: "To do",
+    Priority: "Medium",
   },
   {
     ID: "TASK0005",
@@ -37,6 +47,8 @@ const seedTasks: Task[] = [
     AssignedTo: "Tara",
     DateDue: "09/27/2026",
     Description: "Go to the Fair with the Barker kids. Bring Eric and Jake.",
+    Status: "To do",
+    Priority: "Medium",
   },
   {
     ID: "TASK0006",
@@ -45,6 +57,8 @@ const seedTasks: Task[] = [
     DateDue: "09/27/2026",
     Description:
       "Complete travel arrangements to Portland and Bangor, ME for work.",
+    Status: "To do",
+    Priority: "High",
   },
 ];
 
@@ -56,17 +70,17 @@ export const tasks: Task[] = (store.__honeydoTasks ??= seedTasks);
 export const TITLE_MAX = 30;
 export const DESCRIPTION_MAX = 150;
 
-export type NewTask = Omit<Task, "ID">;
+/** Status and Priority are optional; new tasks default to "To do" / "Medium". */
+export type NewTask = Omit<Task, "ID" | "Status" | "Priority"> &
+  Partial<Pick<Task, "Status" | "Priority">>;
 
 /** Returns an error message, or null if `input` is a valid new task. */
 export function validateNewTask(input: unknown): string | null {
   if (typeof input !== "object" || input === null) {
     return "Request body must be a JSON object.";
   }
-  const { TaskTitle, AssignedTo, DateDue, Description } = input as Record<
-    string,
-    unknown
-  >;
+  const { TaskTitle, AssignedTo, DateDue, Description, Status, Priority } =
+    input as Record<string, unknown>;
 
   if (typeof TaskTitle !== "string" || TaskTitle.trim() === "") {
     return "Title is required.";
@@ -85,6 +99,12 @@ export function validateNewTask(input: unknown): string | null {
   }
   if (Description.trim().length > DESCRIPTION_MAX) {
     return `Description must be ${DESCRIPTION_MAX} characters or fewer.`;
+  }
+  if (Status !== undefined && !STATUSES.includes(Status as TaskStatus)) {
+    return `Status must be one of: ${STATUSES.join(", ")}.`;
+  }
+  if (Priority !== undefined && !PRIORITIES.includes(Priority as TaskPriority)) {
+    return `Priority must be one of: ${PRIORITIES.join(", ")}.`;
   }
   return null;
 }
@@ -114,6 +134,8 @@ export function addTask(input: NewTask): Task {
     AssignedTo: input.AssignedTo,
     DateDue: input.DateDue,
     Description: input.Description.trim(),
+    Status: input.Status ?? "To do",
+    Priority: input.Priority ?? "Medium",
   };
   tasks.push(task);
   return task;
