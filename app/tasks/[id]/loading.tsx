@@ -20,7 +20,10 @@ export default function Loading() {
         .skeleton .chips { margin-bottom: 1.5rem; }
         .skeleton .chip-bar { width: 5.5rem; height: 1.5rem; border-radius: 999px; }
         .skeleton dt.bar { width: 5.5rem; height: 1rem; }
-        .skeleton dd.bar { width: 8rem; height: 1rem; }
+        .skeleton dd { display: flex; align-items: center; gap: 0.5rem; min-height: 1.75rem; }
+        .skeleton .avatar-bar { width: 1.75rem; height: 1.75rem; border-radius: 50%; }
+        .skeleton .name-bar { width: 3.5rem; height: 1.1rem; }
+        .skeleton .date-bar { width: 6rem; height: 1.1rem; }
         .skeleton .line { height: 1rem; margin-bottom: 0.6rem; }
         .skeleton .line:last-child { width: 60%; }
         .skeleton .sr-only {
@@ -50,14 +53,16 @@ export default function Loading() {
             <div className="bar chip-bar" />
           </div>
           <dl>
-            {["Assigned to", "Due"].map((label) => (
-              <div key={label} style={{ display: "contents" }}>
-                <dt className="bar" />
-                <dd className="bar" />
-              </div>
-            ))}
+            <dt className="bar" />
+            <dd>
+              <div className="bar avatar-bar" />
+              <div className="bar name-bar" />
+            </dd>
+            <dt className="bar" />
+            <dd>
+              <div className="bar date-bar" />
+            </dd>
           </dl>
-          <div className="bar line" />
           <div className="bar line" />
           <div className="bar line" />
         </div>
