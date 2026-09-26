@@ -1,0 +1,60 @@
+/** Skeleton for the task detail page, shown while the route streams in. */
+export default function Loading() {
+  return (
+    <main className="task-detail skeleton" aria-busy="true">
+      <style>{`
+        .skeleton .bar {
+          border-radius: 6px;
+          background: linear-gradient(
+            90deg,
+            var(--border) 0%,
+            var(--surface) 50%,
+            var(--border) 100%
+          );
+          background-size: 200% 100%;
+          animation: skeleton-sweep 1.4s ease-in-out infinite;
+        }
+        .skeleton .back { width: 6rem; height: 0.9rem; margin-bottom: 1.5rem; }
+        .skeleton .id { width: 5rem; height: 0.8rem; }
+        .skeleton .title { width: 70%; height: 2.25rem; margin: 0.5rem 0 1.25rem; }
+        .skeleton dl { margin-bottom: 1.5rem; }
+        .skeleton dt.bar { width: 5.5rem; height: 1rem; }
+        .skeleton dd.bar { width: 8rem; height: 1rem; }
+        .skeleton .line { height: 1rem; margin-bottom: 0.6rem; }
+        .skeleton .line:last-child { width: 60%; }
+        .skeleton .sr-only {
+          position: absolute; width: 1px; height: 1px;
+          overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap;
+        }
+        @keyframes skeleton-sweep {
+          from { background-position: 100% 0; }
+          to { background-position: -100% 0; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+          .skeleton .bar { animation: none; }
+        }
+      `}</style>
+
+      <p role="status" className="sr-only">
+        Loading task…
+      </p>
+
+      <div aria-hidden="true">
+        <div className="bar back" />
+        <div className="bar id" />
+        <div className="bar title" />
+        <dl>
+          {["Status", "Priority", "Assigned to", "Due"].map((label) => (
+            <div key={label} style={{ display: "contents" }}>
+              <dt className="bar" />
+              <dd className="bar" />
+            </div>
+          ))}
+        </dl>
+        <div className="bar line" />
+        <div className="bar line" />
+        <div className="bar line" />
+      </div>
+    </main>
+  );
+}
