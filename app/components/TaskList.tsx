@@ -5,10 +5,15 @@ import {
   StatusChip,
   statusTone,
 } from "@/app/components/TaskBadges";
-import { ASSIGNEES } from "@/lib/tasks";
 import type { Task } from "@/lib/types";
 
-export default function TaskList({ tasks }: { tasks: Task[] }) {
+export default function TaskList({
+  tasks,
+  assignees,
+}: {
+  tasks: Task[];
+  assignees: string[];
+}) {
   return (
     <ul className="task-grid">
       {tasks.map((task) => (
@@ -32,7 +37,7 @@ export default function TaskList({ tasks }: { tasks: Task[] }) {
             <Avatar name={task.AssignedTo} />
             Assigned to
             <select defaultValue={task.AssignedTo}>
-              {ASSIGNEES.map((name) => (
+              {assignees.map((name) => (
                 <option key={name} value={name}>
                   {name}
                 </option>

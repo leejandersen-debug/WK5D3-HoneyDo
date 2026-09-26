@@ -1,8 +1,7 @@
-import type { Assignee, Task, TaskPriority, TaskStatus } from "@/lib/types";
+import { defaultPriority, settings } from "@/lib/settings";
+import type { Task, TaskStatus } from "@/lib/types";
 
-export const ASSIGNEES: Assignee[] = ["Lee", "Tara", "Eric", "Jake"];
 export const STATUSES: TaskStatus[] = ["To do", "In progress", "Done"];
-export const PRIORITIES: TaskPriority[] = ["Low", "Medium", "High"];
 
 const seedTasks: Task[] = [
   {
@@ -61,7 +60,7 @@ export const tasks: Task[] = (store.__honeydoTasks ??= seedTasks);
 export const TITLE_MAX = 30;
 export const DESCRIPTION_MAX = 150;
 
-/** Status and Priority are optional; new tasks default to "To do" / "Medium". */
+/** Status and Priority are optional; see addTask for the defaults. */
 export type NewTask = Omit<Task, "ID" | "Status" | "Priority"> &
   Partial<Pick<Task, "Status" | "Priority">>;
 
@@ -79,8 +78,8 @@ export function validateNewTask(input: unknown): string | null {
   if (TaskTitle.trim().length > TITLE_MAX) {
     return `Title must be ${TITLE_MAX} characters or fewer.`;
   }
-  if (!ASSIGNEES.includes(AssignedTo as Assignee)) {
-    return `Assignee must be one of: ${ASSIGNEES.join(", ")}.`;
+  if (!settings.assignees.includes(AssignedTo as string)) {
+    return `Assignee must be one of: ${settings.assignees.join(", ")}.`;
   }
   if (typeof DateDue !== "string" || !isValidDate(DateDue)) {
     return "Due date must be a real date in mm/dd/yyyy format.";
@@ -94,8 +93,11 @@ export function validateNewTask(input: unknown): string | null {
   if (Status !== undefined && !STATUSES.includes(Status as TaskStatus)) {
     return `Status must be one of: ${STATUSES.join(", ")}.`;
   }
-  if (Priority !== undefined && !PRIORITIES.includes(Priority as TaskPriority)) {
-    return `Priority must be one of: ${PRIORITIES.join(", ")}.`;
+  if (
+    Priority !== undefined &&
+    !settings.priorities.includes(Priority as string)
+  ) {
+    return `Priority must be one of: ${settings.priorities.join(", ")}.`;
   }
   return null;
 }
@@ -126,7 +128,7 @@ export function addTask(input: NewTask): Task {
     DateDue: input.DateDue,
     Description: input.Description.trim(),
     Status: input.Status ?? "To do",
-    Priority: input.Priority ?? "Medium",
+    Priority: input.Priority ?? defaultPriority(),
   };
   tasks.push(task);
   return task;

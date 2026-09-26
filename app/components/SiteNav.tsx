@@ -7,6 +7,7 @@ const LINKS = [
   { href: "/", label: "Home" },
   { href: "/tasks", label: "Tasks" },
   { href: "/about", label: "About" },
+  { href: "/settings", label: "Settings" },
 ];
 
 /** Home matches only "/"; other links also match their sub-pages. */

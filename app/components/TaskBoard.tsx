@@ -2,12 +2,23 @@
 
 import { useEffect, useState } from "react";
 import AddTaskForm from "@/app/components/AddTaskForm";
+import AssigneeFilter from "@/app/components/AssigneeFilter";
 import TaskList from "@/app/components/TaskList";
 import type { Task } from "@/lib/types";
 
 /** Owns the task list so the add form and the list share the same state. */
-export default function TaskBoard({ intro }: { intro: React.ReactNode }) {
+export default function TaskBoard({
+  intro,
+  assignees,
+  priorities,
+}: {
+  intro: React.ReactNode;
+  assignees: string[];
+  priorities: string[];
+}) {
   const [tasks, setTasks] = useState<Task[]>([]);
+  // Empty means everyone.
+  const [shownAssignees, setShownAssignees] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [adding, setAdding] = useState(false);
@@ -37,6 +48,11 @@ export default function TaskBoard({ intro }: { intro: React.ReactNode }) {
     };
   }, []);
 
+  const visible =
+    shownAssignees.length === 0
+      ? tasks
+      : tasks.filter((t) => shownAssignees.includes(t.AssignedTo));
+
   function handleAdded(task: Task) {
     setTasks((current) => [...current, task]);
     setAdding(false);
@@ -46,16 +62,29 @@ export default function TaskBoard({ intro }: { intro: React.ReactNode }) {
     <>
       <section className="hero">
         {intro}
-        {adding ? (
-          <AddTaskForm onAdded={handleAdded} onCancel={() => setAdding(false)} />
-        ) : (
-          <button
-            type="button"
-            className="button-primary"
-            onClick={() => setAdding(true)}
-          >
-            <span aria-hidden="true">+</span> Add a task
-          </button>
+        <div className="hero-actions">
+          {!adding && (
+            <button
+              type="button"
+              className="button-primary"
+              onClick={() => setAdding(true)}
+            >
+              <span aria-hidden="true">+</span> Add a task
+            </button>
+          )}
+          <AssigneeFilter
+            options={assignees}
+            selected={shownAssignees}
+            onChange={setShownAssignees}
+          />
+        </div>
+        {adding && (
+          <AddTaskForm
+            assignees={assignees}
+            priorities={priorities}
+            onAdded={handleAdded}
+            onCancel={() => setAdding(false)}
+          />
         )}
       </section>
 
@@ -71,8 +100,12 @@ export default function TaskBoard({ intro }: { intro: React.ReactNode }) {
           <p className="tasks-status">
             No tasks yet. Use &ldquo;Add a task&rdquo; above to get started.
           </p>
+        ) : visible.length === 0 ? (
+          <p className="tasks-status">
+            No tasks assigned to {shownAssignees.join(" or ")}.
+          </p>
         ) : (
-          <TaskList tasks={tasks} />
+          <TaskList tasks={visible} assignees={assignees} />
         )}
       </section>
     </>

@@ -1,12 +1,18 @@
+import { connection } from "next/server";
 import TaskBoard from "@/app/components/TaskBoard";
+import { settings } from "@/lib/settings";
 
-export default function Home() {
+export default async function Home() {
+  // The assignee and priority lists are editable, so render per request.
+  await connection();
+
   return (
     <main>
       <TaskBoard
+        assignees={[...settings.assignees]}
+        priorities={[...settings.priorities]}
         intro={
           <>
-            <p className="eyebrow">Your household hive</p>
             <h1>
               Get the household to-do list{" "}
               <span className="highlight">done.</span>

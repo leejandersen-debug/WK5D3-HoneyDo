@@ -1,10 +1,13 @@
 "use client";
 
 import { useState } from "react";
-import { ASSIGNEES, DESCRIPTION_MAX, TITLE_MAX } from "@/lib/tasks";
+import { DESCRIPTION_MAX, TITLE_MAX } from "@/lib/tasks";
 import type { Task } from "@/lib/types";
 
 interface Props {
+  assignees: string[];
+  /** Highest first. */
+  priorities: string[];
   onAdded: (task: Task) => void;
   onCancel: () => void;
 }
@@ -15,7 +18,19 @@ function toDisplayDate(isoDate: string): string {
   return `${mm}/${dd}/${yyyy}`;
 }
 
-export default function AddTaskForm({ onAdded, onCancel }: Props) {
+/** "Medium" if it exists, otherwise the middle priority. Mirrors lib/settings. */
+function defaultPriority(priorities: string[]): string {
+  return priorities.includes("Medium")
+    ? "Medium"
+    : priorities[Math.floor((priorities.length - 1) / 2)];
+}
+
+export default function AddTaskForm({
+  assignees,
+  priorities,
+  onAdded,
+  onCancel,
+}: Props) {
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -34,6 +49,7 @@ export default function AddTaskForm({ onAdded, onCancel }: Props) {
           TaskTitle: data.get("title"),
           AssignedTo: data.get("assignee"),
           DateDue: toDisplayDate(String(data.get("due"))),
+          Priority: data.get("priority"),
           Description: data.get("description"),
         }),
       });
@@ -59,8 +75,22 @@ export default function AddTaskForm({ onAdded, onCancel }: Props) {
       <div className="add-task-row">
         <label>
           Assigned to
-          <select name="assignee" required defaultValue={ASSIGNEES[0]}>
-            {ASSIGNEES.map((name) => (
+          <select name="assignee" required defaultValue={assignees[0]}>
+            {assignees.map((name) => (
+              <option key={name} value={name}>
+                {name}
+              </option>
+            ))}
+          </select>
+        </label>
+        <label>
+          Priority
+          <select
+            name="priority"
+            required
+            defaultValue={defaultPriority(priorities)}
+          >
+            {priorities.map((name) => (
               <option key={name} value={name}>
                 {name}
               </option>

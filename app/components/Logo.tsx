@@ -30,8 +30,20 @@ export default function Logo({ size = 44 }: { size?: number }) {
 
       {/* Wings */}
       <g fill="#ffffff" fillOpacity="0.92" stroke="#3a2a1a" strokeWidth="1.5">
-        <ellipse cx="12.5" cy="20" rx="5.5" ry="4" transform="rotate(-25 12.5 20)" />
-        <ellipse cx="35.5" cy="20" rx="5.5" ry="4" transform="rotate(25 35.5 20)" />
+        <ellipse
+          cx="12.5"
+          cy="20"
+          rx="5.5"
+          ry="4"
+          transform="rotate(-25 12.5 20)"
+        />
+        <ellipse
+          cx="35.5"
+          cy="20"
+          rx="5.5"
+          ry="4"
+          transform="rotate(25 35.5 20)"
+        />
       </g>
 
       {/* Antennae */}
@@ -48,15 +60,36 @@ export default function Logo({ size = 44 }: { size?: number }) {
         <rect x="0" y="31" width="48" height="3" />
         <rect x="0" y="35.8" width="48" height="3" />
       </g>
-      <circle cx="24" cy="27" r="11" fill="none" stroke="#3a2a1a" strokeWidth="2" />
+      <circle
+        cx="24"
+        cy="27"
+        r="11"
+        fill="none"
+        stroke="#3a2a1a"
+        strokeWidth="2"
+      />
 
       {/* Face */}
       <circle cx="20" cy="24" r="1.8" fill="#3a2a1a" />
       <circle cx="28" cy="24" r="1.8" fill="#3a2a1a" />
       <circle cx="20.6" cy="23.4" r="0.6" fill="#ffffff" />
       <circle cx="28.6" cy="23.4" r="0.6" fill="#ffffff" />
-      <ellipse cx="17.2" cy="27.4" rx="1.8" ry="1.1" fill="#ff6b9a" fillOpacity="0.85" />
-      <ellipse cx="30.8" cy="27.4" rx="1.8" ry="1.1" fill="#ff6b9a" fillOpacity="0.85" />
+      <ellipse
+        cx="17.2"
+        cy="27.4"
+        rx="1.8"
+        ry="1.1"
+        fill="#ff6b9a"
+        fillOpacity="0.85"
+      />
+      <ellipse
+        cx="30.8"
+        cy="27.4"
+        rx="1.8"
+        ry="1.1"
+        fill="#ff6b9a"
+        fillOpacity="0.85"
+      />
       <path
         d="M21.6 27 Q24 29.4 26.4 27"
         fill="none"

@@ -1,8 +1,10 @@
-export type Assignee = "Lee" | "Tara" | "Eric" | "Jake";
+/** One of settings.assignees, which is editable on the Settings page. */
+export type Assignee = string;
 
 export type TaskStatus = "To do" | "In progress" | "Done";
 
-export type TaskPriority = "Low" | "Medium" | "High";
+/** One of settings.priorities, which is editable on the Settings page. */
+export type TaskPriority = string;
 
 export interface Task {
   ID: string;

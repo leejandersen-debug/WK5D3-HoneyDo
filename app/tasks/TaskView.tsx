@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import type { Task, TaskPriority, TaskStatus } from "@/lib/types";
+import type { Task, TaskStatus } from "@/lib/types";
 import TaskBoard from "./TaskBoard";
 import TaskList from "./TaskList";
 import styles from "./page.module.css";
@@ -34,12 +34,6 @@ const FILTER_STATUS: Record<Exclude<Filter, "all">, TaskStatus> = {
   done: "Done",
 };
 
-const PRIORITY_RANK: Record<TaskPriority, number> = {
-  High: 0,
-  Medium: 1,
-  Low: 2,
-};
-
 /** Converts mm/dd/yyyy to a sortable yyyymmdd number. */
 function dueKey(date: string): number {
   const [mm, dd, yyyy] = date.split("/");
@@ -51,7 +45,15 @@ function idNumber(id: string): number {
   return Number(id.replace("TASK", "")) || 0;
 }
 
-function applyFilterAndSort(tasks: Task[], filter: Filter, sort: Sort): Task[] {
+function applyFilterAndSort(
+  tasks: Task[],
+  filter: Filter,
+  sort: Sort,
+  priorities: string[],
+): Task[] {
+  // Priorities are listed highest first, so the index is the rank.
+  const rank = (task: Task) => priorities.indexOf(task.Priority);
+
   const filtered =
     filter === "all"
       ? tasks
@@ -60,15 +62,9 @@ function applyFilterAndSort(tasks: Task[], filter: Filter, sort: Sort): Task[] {
   return [...filtered].sort((a, b) => {
     switch (sort) {
       case "priority":
-        return (
-          PRIORITY_RANK[a.Priority] - PRIORITY_RANK[b.Priority] ||
-          dueKey(a.DateDue) - dueKey(b.DateDue)
-        );
+        return rank(a) - rank(b) || dueKey(a.DateDue) - dueKey(b.DateDue);
       case "due":
-        return (
-          dueKey(a.DateDue) - dueKey(b.DateDue) ||
-          PRIORITY_RANK[a.Priority] - PRIORITY_RANK[b.Priority]
-        );
+        return dueKey(a.DateDue) - dueKey(b.DateDue) || rank(a) - rank(b);
       case "recent":
         // There's no created-at field, so newest ID first stands in for it.
         return idNumber(b.ID) - idNumber(a.ID);
@@ -108,12 +104,18 @@ function ButtonGroup<T extends string>({
   );
 }
 
-export default function TaskView({ tasks }: { tasks: Task[] }) {
+export default function TaskView({
+  tasks,
+  priorities,
+}: {
+  tasks: Task[];
+  priorities: string[];
+}) {
   const [filter, setFilter] = useState<Filter>("all");
   const [sort, setSort] = useState<Sort>("priority");
   const [view, setView] = useState<View>("list");
 
-  const visible = applyFilterAndSort(tasks, filter, sort);
+  const visible = applyFilterAndSort(tasks, filter, sort, priorities);
 
   return (
     <main
