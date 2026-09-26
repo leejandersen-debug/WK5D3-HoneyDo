@@ -1,5 +1,11 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import {
+  Avatar,
+  PriorityChip,
+  StatusChip,
+  statusTone,
+} from "@/app/components/TaskBadges";
 import { tasks } from "@/lib/tasks";
 
 /** Converts mm/dd/yyyy to the yyyy-mm-dd form <time dateTime> expects. */
@@ -23,18 +29,21 @@ export default async function TaskPage(props: PageProps<"/tasks/[id]">) {
       <Link href="/tasks" className="back-link">
         &larr; All tasks
       </Link>
-      <article>
+      <article className="detail-card" data-tone={statusTone(task.Status)}>
         <header>
           <p className="task-id">{task.ID}</p>
           <h1>{task.TaskTitle}</h1>
+          <div className="chips">
+            <StatusChip status={task.Status} />
+            <PriorityChip priority={task.Priority} />
+          </div>
         </header>
         <dl>
-          <dt>Status</dt>
-          <dd>{task.Status}</dd>
-          <dt>Priority</dt>
-          <dd>{task.Priority}</dd>
           <dt>Assigned to</dt>
-          <dd>{task.AssignedTo}</dd>
+          <dd className="person">
+            <Avatar name={task.AssignedTo} />
+            {task.AssignedTo}
+          </dd>
           <dt>Due</dt>
           <dd>
             <time dateTime={toIsoDate(task.DateDue)}>{task.DateDue}</time>

@@ -54,7 +54,7 @@ export default function TaskBoard({ intro }: { intro: React.ReactNode }) {
             className="button-primary"
             onClick={() => setAdding(true)}
           >
-            Add a task
+            <span aria-hidden="true">+</span> Add a task
           </button>
         )}
       </section>
@@ -66,6 +66,10 @@ export default function TaskBoard({ intro }: { intro: React.ReactNode }) {
         ) : error ? (
           <p className="tasks-status tasks-error" role="alert">
             Couldn&apos;t load tasks: {error}
+          </p>
+        ) : tasks.length === 0 ? (
+          <p className="tasks-status">
+            No tasks yet. Use &ldquo;Add a task&rdquo; above to get started.
           </p>
         ) : (
           <TaskList tasks={tasks} />

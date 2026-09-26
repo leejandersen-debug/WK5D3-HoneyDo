@@ -1,14 +1,9 @@
 "use client";
 
 import Link from "next/link";
-import type { Task, TaskStatus } from "@/lib/types";
+import { Avatar, PriorityChip, statusTone } from "@/app/components/TaskBadges";
+import type { Task } from "@/lib/types";
 import styles from "./TaskList.module.css";
-
-const dotClass: Record<TaskStatus, string> = {
-  "To do": styles.dotTodo,
-  "In progress": styles.dotInProgress,
-  Done: styles.dotDone,
-};
 
 export default function TaskList({ tasks }: { tasks: Task[] }) {
   return (
@@ -16,7 +11,8 @@ export default function TaskList({ tasks }: { tasks: Task[] }) {
       {tasks.map((task) => (
         <li key={task.ID} className={styles.row}>
           <span
-            className={`${styles.dot} ${dotClass[task.Status]}`}
+            className={styles.dot}
+            data-tone={statusTone(task.Status)}
             role="img"
             aria-label={task.Status}
             title={task.Status}
@@ -28,7 +24,11 @@ export default function TaskList({ tasks }: { tasks: Task[] }) {
           >
             {task.TaskTitle}
           </Link>
-          <span className={styles.priority}>{task.Priority}</span>
+          <PriorityChip priority={task.Priority} />
+          <span className={`person ${styles.assignee}`}>
+            <Avatar name={task.AssignedTo} />
+            {task.AssignedTo}
+          </span>
           <span className={styles.due}>Due {task.DateDue}</span>
         </li>
       ))}

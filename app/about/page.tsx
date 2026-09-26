@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "About · HoneyDo",
+  title: "About",
 };
 
 export default function AboutPage() {

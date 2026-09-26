@@ -14,10 +14,11 @@ export default function Loading() {
           background-size: 200% 100%;
           animation: skeleton-sweep 1.4s ease-in-out infinite;
         }
-        .skeleton .back { width: 6rem; height: 0.9rem; margin-bottom: 1.5rem; }
+        .skeleton .back { width: 7rem; height: 2rem; margin-bottom: 1.25rem; border-radius: 999px; }
         .skeleton .id { width: 5rem; height: 0.8rem; }
-        .skeleton .title { width: 70%; height: 2.25rem; margin: 0.5rem 0 1.25rem; }
-        .skeleton dl { margin-bottom: 1.5rem; }
+        .skeleton .title { width: 70%; height: 2.25rem; margin: 0.5rem 0 0.75rem; }
+        .skeleton .chips { margin-bottom: 1.5rem; }
+        .skeleton .chip-bar { width: 5.5rem; height: 1.5rem; border-radius: 999px; }
         .skeleton dt.bar { width: 5.5rem; height: 1rem; }
         .skeleton dd.bar { width: 8rem; height: 1rem; }
         .skeleton .line { height: 1rem; margin-bottom: 0.6rem; }
@@ -41,19 +42,25 @@ export default function Loading() {
 
       <div aria-hidden="true">
         <div className="bar back" />
-        <div className="bar id" />
-        <div className="bar title" />
-        <dl>
-          {["Status", "Priority", "Assigned to", "Due"].map((label) => (
-            <div key={label} style={{ display: "contents" }}>
-              <dt className="bar" />
-              <dd className="bar" />
-            </div>
-          ))}
-        </dl>
-        <div className="bar line" />
-        <div className="bar line" />
-        <div className="bar line" />
+        <div className="detail-card">
+          <div className="bar id" />
+          <div className="bar title" />
+          <div className="chips">
+            <div className="bar chip-bar" />
+            <div className="bar chip-bar" />
+          </div>
+          <dl>
+            {["Assigned to", "Due"].map((label) => (
+              <div key={label} style={{ display: "contents" }}>
+                <dt className="bar" />
+                <dd className="bar" />
+              </div>
+            ))}
+          </dl>
+          <div className="bar line" />
+          <div className="bar line" />
+          <div className="bar line" />
+        </div>
       </div>
     </main>
   );

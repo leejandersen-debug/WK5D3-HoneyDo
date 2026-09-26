@@ -2,15 +2,23 @@
   list-style: none;
   background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: 12px;
+  border-radius: 18px;
+  box-shadow: var(--soft-shadow);
+  overflow: hidden;
 }
 
 .row {
+  position: relative;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 0.25rem 1rem;
-  padding: 0.75rem 1rem;
+  gap: 0.5rem 1rem;
+  padding: 0.9rem 1.25rem;
+  transition: background 150ms ease;
+}
+
+.row:hover {
+  background: var(--surface-tint);
 }
 
 .row + .row {
@@ -19,43 +27,40 @@
 
 .dot {
   flex-shrink: 0;
-  width: 0.625rem;
-  height: 0.625rem;
+  width: 0.8rem;
+  height: 0.8rem;
+  background: var(--tone);
   border-radius: 50%;
-}
-
-.dotTodo {
-  border: 2px solid var(--muted);
-}
-
-.dotInProgress {
-  background: var(--accent);
-}
-
-.dotDone {
-  background: var(--foreground);
+  box-shadow: 0 0 0 4px var(--tone-soft);
 }
 
 .title {
   flex: 1;
   min-width: 10rem;
-  font-weight: 600;
+  font-weight: 700;
+}
+
+/* Make the whole row clickable, not just the title text. */
+.title::after {
+  content: "";
+  position: absolute;
+  inset: 0;
 }
 
 .title:hover {
-  text-decoration: underline;
+  color: var(--link);
 }
 
-.priority,
-.due {
+.assignee {
   font-size: 0.85rem;
   color: var(--muted);
 }
 
-.priority {
-  min-width: 4rem;
-}
-
 .due {
+  min-width: 6.5rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-align: right;
+  color: var(--muted);
   font-variant-numeric: tabular-nums;
 }

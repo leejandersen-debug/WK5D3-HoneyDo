@@ -45,7 +45,7 @@ export default function TaskError({
       <Link href="/tasks" className="back-link">
         &larr; All tasks
       </Link>
-      <article role="alert">
+      <article className="detail-card" data-tone="berry" role="alert">
         <p className="label">Something went wrong</p>
         <h1>We couldn&apos;t load this task.</h1>
         <p className="message">
