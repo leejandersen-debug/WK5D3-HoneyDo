@@ -31,6 +31,9 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           <SiteNav />
         </header>
         {children}
+        <footer className="site-footer">
+          <p>&copy; 2026 HoneyDo. All rights reserved.</p>
+        </footer>
       </body>
     </html>
   );
