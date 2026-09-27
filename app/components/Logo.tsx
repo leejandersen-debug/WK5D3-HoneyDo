@@ -1,5 +1,13 @@
+import { useId } from "react";
+
 /** A smiling bee on a honeycomb cell. Decorative: the brand name sits beside it. */
 export default function Logo({ size = 44 }: { size?: number }) {
+  // Unique per copy so two logos on one page don't share gradient/clip IDs.
+  // Strip characters useId adds that aren't safe inside url(#...).
+  const uid = useId().replace(/[^a-zA-Z0-9_-]/g, "");
+  const hexId = `honeydo-logo-hex-${uid}`;
+  const bodyId = `honeydo-logo-body-${uid}`;
+
   return (
     <svg
       width={size}
@@ -9,12 +17,12 @@ export default function Logo({ size = 44 }: { size?: number }) {
       className="logo"
     >
       <defs>
-        <linearGradient id="honeydo-logo-hex" x1="0" y1="0" x2="1" y2="1">
+        <linearGradient id={hexId} x1="0" y1="0" x2="1" y2="1">
           <stop offset="0" stopColor="#ffd23f" />
           <stop offset="0.55" stopColor="#ff9f1c" />
           <stop offset="1" stopColor="#ff5e7e" />
         </linearGradient>
-        <clipPath id="honeydo-logo-body">
+        <clipPath id={bodyId}>
           <circle cx="24" cy="27" r="11" />
         </clipPath>
       </defs>
@@ -22,8 +30,8 @@ export default function Logo({ size = 44 }: { size?: number }) {
       {/* Honeycomb cell */}
       <polygon
         points="24,3 42.2,13.5 42.2,34.5 24,45 5.8,34.5 5.8,13.5"
-        fill="url(#honeydo-logo-hex)"
-        stroke="url(#honeydo-logo-hex)"
+        fill={`url(#${hexId})`}
+        stroke={`url(#${hexId})`}
         strokeWidth="4"
         strokeLinejoin="round"
       />
@@ -56,7 +64,7 @@ export default function Logo({ size = 44 }: { size?: number }) {
 
       {/* Body and stripes */}
       <circle cx="24" cy="27" r="11" fill="#ffe27a" />
-      <g clipPath="url(#honeydo-logo-body)" fill="#3a2a1a">
+      <g clipPath={`url(#${bodyId})`} fill="#3a2a1a">
         <rect x="0" y="31" width="48" height="3" />
         <rect x="0" y="35.8" width="48" height="3" />
       </g>

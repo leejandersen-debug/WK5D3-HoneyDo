@@ -9,5 +9,11 @@ export default async function TasksPage() {
   await connection();
   // Read the data directly. Server components shouldn't call our own
   // /api routes — that's an extra HTTP request back to the same server.
-  return <TaskView tasks={tasks} priorities={[...settings.priorities]} />;
+  return (
+    <TaskView
+      tasks={tasks}
+      assignees={[...settings.assignees]}
+      priorities={[...settings.priorities]}
+    />
+  );
 }

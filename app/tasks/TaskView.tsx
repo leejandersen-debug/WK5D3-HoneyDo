@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import type { Task, TaskStatus } from "@/lib/types";
+import EmptyState from "./EmptyState";
 import TaskBoard from "./TaskBoard";
 import TaskList from "./TaskList";
 import styles from "./page.module.css";
@@ -106,9 +107,11 @@ function ButtonGroup<T extends string>({
 
 export default function TaskView({
   tasks,
+  assignees,
   priorities,
 }: {
   tasks: Task[];
+  assignees: string[];
   priorities: string[];
 }) {
   const [filter, setFilter] = useState<Filter>("all");
@@ -123,35 +126,40 @@ export default function TaskView({
     >
       <h1 className={styles.heading}>All tasks</h1>
 
-      <div className={styles.controls}>
-        <ButtonGroup
-          label="Filter"
-          options={FILTERS}
-          value={filter}
-          onChange={setFilter}
-        />
-        <ButtonGroup
-          label="Sort"
-          options={SORTS}
-          value={sort}
-          onChange={setSort}
-        />
-        <ButtonGroup
-          label="View"
-          options={VIEWS}
-          value={view}
-          onChange={setView}
-        />
-      </div>
-
       {tasks.length === 0 ? (
-        <p className={styles.empty}>No tasks yet.</p>
-      ) : view === "board" ? (
-        <TaskBoard tasks={visible} />
-      ) : visible.length === 0 ? (
-        <p className={styles.empty}>No tasks match this filter.</p>
+        // Nothing to filter or sort yet, so skip the controls entirely.
+        <EmptyState assignees={assignees} priorities={priorities} />
       ) : (
-        <TaskList tasks={visible} />
+        <>
+          <div className={styles.controls}>
+            <ButtonGroup
+              label="Filter"
+              options={FILTERS}
+              value={filter}
+              onChange={setFilter}
+            />
+            <ButtonGroup
+              label="Sort"
+              options={SORTS}
+              value={sort}
+              onChange={setSort}
+            />
+            <ButtonGroup
+              label="View"
+              options={VIEWS}
+              value={view}
+              onChange={setView}
+            />
+          </div>
+
+          {view === "board" ? (
+            <TaskBoard tasks={visible} />
+          ) : visible.length === 0 ? (
+            <p className={styles.empty}>No tasks match this filter.</p>
+          ) : (
+            <TaskList tasks={visible} />
+          )}
+        </>
       )}
     </main>
   );
